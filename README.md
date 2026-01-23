@@ -13,6 +13,19 @@
 
 <!-- /TOC -->
 
+<!-- TOC tocDepth:2..3 chapterDepth:2..6 -->
+
+- [🛠️ Stack Tecnológico](#🛠️-stack-tecnológico)
+- [📋 Requisitos Cubiertos](#📋-requisitos-cubiertos)
+- [🗄️ Base de Datos (Relacional)](#🗄️-base-de-datos-relacional)
+    - [Diseño del Esquema](#diseño-del-esquema)
+- [📝 Backlog de Tareas - Backend](#📝-backlog-de-tareas---backend)
+    - [🏗️ Estructura y Base de Datos](#🏗️-estructura-y-base-de-datos)
+    - [⚙️ Lógica de Negocio (API)](#⚙️-lógica-de-negocio-api)
+    - [🔐 Seguridad y Roles](#🔐-seguridad-y-roles)
+
+<!-- /TOC -->
+
 # IES El Rincón - Backend (Gestión de Recursos)
 
 Este es el núcleo de la aplicación, encargado de la persistencia de datos y la lógica de negocio de préstamos y reservas.
@@ -117,12 +130,28 @@ material_loans
 ### ⚙️ Lógica de Negocio (API)
 
 - [ ] Crear el CRUD completo para la gestión de materiales y aulas (Backoffice).
-- [ ] Desarrollar el servicio web para el listado de recursos y su estado de disponibilidad.
+- [ ] Desarrollar el servicio web para el listado de recursos y su esIPyt### - [ ] Asegurar que el registro de usuarios capture los datos básicos y departamento.
+      r the [MIT license](https://opensource.org/licenses/MIT).
+      nciar accesos entre Admin y Profesorado.
+      tarponibilidad.
 - [ ] Programar la lógica de validación de fechas para evitar solapamientos en reservas.
-- [ ] Implementar el sistema de gestión de excepciones para controlar errores de reserva (basado en lógica Python).105, 298].
+- [ ] IPyt### - [ ] Asegurar que el registro de usuarios capture los datos básicos y departamento.
+      r the [MIT license](https://opensource.org/licenses/MIT).
+      nciar accesos entre Admin y Profesorado.
+      tar el sistema de gestión de excepciones para controlar errores de reserva (basado en lógica Pyt### - [ ] Asegurar que el registro de usuarios capture los datos básicos y departamento.
+      r the [MIT license](https://opensource.org/licenses/MIT).
+      nciar accesos entre Admin y Profesorado.
+      .105, 298].
 - [ ] Crear endpoint de "Alertas" que identifique registros con estado 'atrasado'.
 
-### 🔐 Seguridad y Roles
+### - [ ] Asegurar que el registro de usuarios capture los datos básicos y departamento.
+
+r the [MIT license](https://opensource.org/licenses/MIT).
+nciar accesos entre Admin y Profesorado.
+🔐 Seguridad y Roles
 
 - [ ] Implementar middleware para diferenciar accesos entre Admin y Profesorado.
+- [ ] Asegurar que el registro de usuarios capture los datos básicos y departamento.
+      r the [MIT license](https://opensource.org/licenses/MIT).
+      nciar accesos entre Admin y Profesorado.
 - [ ] Asegurar que el registro de usuarios capture los datos básicos y departamento.

@@ -1,0 +1,371 @@
+{
+    "info": {
+        "name": "IES El Rincón - Backend API",
+        "description": "Colección de endpoints para el sistema de gestión de recursos",
+        "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+    },
+    "item": [
+        {
+            "name": "Auth",
+            "item": [
+                {
+                    "name": "Login",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"email\": \"admin@iesrincon.es\",\n  \"password\": \"admin123\"\n}"
+                        },
+                        "url": {
+                            "raw": "http://localhost:8000/api/login",
+                            "protocol": "http",
+                            "host": ["localhost"],
+                            "port": "8000",
+                            "path": ["api", "login"]
+                        }
+                    }
+                },
+                {
+                    "name": "Register",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            },
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{token}}"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"name\": \"Nuevo Profesor\",\n  \"email\": \"nuevo@iesrincon.es\",\n  \"password\": \"password123\",\n  \"password_confirmation\": \"password123\",\n  \"department\": \"Ciencias\",\n  \"role\": \"profesor\"\n}"
+                        },
+                        "url": {
+                            "raw": "http://localhost:8000/api/register",
+                            "protocol": "http",
+                            "host": ["localhost"],
+                            "port": "8000",
+                            "path": ["api", "register"]
+                        }
+                    }
+                },
+                {
+                    "name": "Me",
+                    "request": {
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{token}}"
+                            }
+                        ],
+                        "url": {
+                            "raw": "http://localhost:8000/api/me",
+                            "protocol": "http",
+                            "host": ["localhost"],
+                            "port": "8000",
+                            "path": ["api", "me"]
+                        }
+                    }
+                },
+                {
+                    "name": "Logout",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{token}}"
+                            }
+                        ],
+                        "url": {
+                            "raw": "http://localhost:8000/api/logout",
+                            "protocol": "http",
+                            "host": ["localhost"],
+                            "port": "8000",
+                            "path": ["api", "logout"]
+                        }
+                    }
+                }
+            ]
+        },
+        {
+            "name": "Rooms",
+            "item": [
+                {
+                    "name": "Get All Rooms",
+                    "request": {
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{token}}"
+                            }
+                        ],
+                        "url": {
+                            "raw": "http://localhost:8000/api/rooms",
+                            "protocol": "http",
+                            "host": ["localhost"],
+                            "port": "8000",
+                            "path": ["api", "rooms"]
+                        }
+                    }
+                },
+                {
+                    "name": "Get Room By ID",
+                    "request": {
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{token}}"
+                            }
+                        ],
+                        "url": {
+                            "raw": "http://localhost:8000/api/rooms/1",
+                            "protocol": "http",
+                            "host": ["localhost"],
+                            "port": "8000",
+                            "path": ["api", "rooms", "1"]
+                        }
+                    }
+                },
+                {
+                    "name": "Create Room",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            },
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{token}}"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"name\": \"Aula 301\",\n  \"barcode\": \"AULA-301-BC\",\n  \"description\": \"Aula con proyector y pizarra digital\"\n}"
+                        },
+                        "url": {
+                            "raw": "http://localhost:8000/api/rooms",
+                            "protocol": "http",
+                            "host": ["localhost"],
+                            "port": "8000",
+                            "path": ["api", "rooms"]
+                        }
+                    }
+                },
+                {
+                    "name": "Update Room",
+                    "request": {
+                        "method": "PUT",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            },
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{token}}"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"name\": \"Aula 301 - Actualizada\",\n  \"description\": \"Nueva descripción\"\n}"
+                        },
+                        "url": {
+                            "raw": "http://localhost:8000/api/rooms/1",
+                            "protocol": "http",
+                            "host": ["localhost"],
+                            "port": "8000",
+                            "path": ["api", "rooms", "1"]
+                        }
+                    }
+                },
+                {
+                    "name": "Delete Room",
+                    "request": {
+                        "method": "DELETE",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{token}}"
+                            }
+                        ],
+                        "url": {
+                            "raw": "http://localhost:8000/api/rooms/1",
+                            "protocol": "http",
+                            "host": ["localhost"],
+                            "port": "8000",
+                            "path": ["api", "rooms", "1"]
+                        }
+                    }
+                }
+            ]
+        },
+        {
+            "name": "Materials",
+            "item": [
+                {
+                    "name": "Get All Materials",
+                    "request": {
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{token}}"
+                            }
+                        ],
+                        "url": {
+                            "raw": "http://localhost:8000/api/materials",
+                            "protocol": "http",
+                            "host": ["localhost"],
+                            "port": "8000",
+                            "path": ["api", "materials"]
+                        }
+                    }
+                },
+                {
+                    "name": "Create Material",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            },
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{token}}"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"name\": \"Portátil Lenovo ThinkPad\",\n  \"barcode\": \"LAPTOP-010-BC\",\n  \"status\": \"disponible\"\n}"
+                        },
+                        "url": {
+                            "raw": "http://localhost:8000/api/materials",
+                            "protocol": "http",
+                            "host": ["localhost"],
+                            "port": "8000",
+                            "path": ["api", "materials"]
+                        }
+                    }
+                }
+            ]
+        },
+        {
+            "name": "Room Reservations",
+            "item": [
+                {
+                    "name": "Get All Reservations",
+                    "request": {
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{token}}"
+                            }
+                        ],
+                        "url": {
+                            "raw": "http://localhost:8000/api/room-reservations",
+                            "protocol": "http",
+                            "host": ["localhost"],
+                            "port": "8000",
+                            "path": ["api", "room-reservations"]
+                        }
+                    }
+                },
+                {
+                    "name": "Create Reservation",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            },
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{token}}"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"user_id\": 2,\n  \"room_id\": 1,\n  \"start_date\": \"2026-01-25 09:00:00\",\n  \"end_date\": \"2026-01-25 11:00:00\",\n  \"observations\": \"Clase de programación\",\n  \"status\": \"activa\"\n}"
+                        },
+                        "url": {
+                            "raw": "http://localhost:8000/api/room-reservations",
+                            "protocol": "http",
+                            "host": ["localhost"],
+                            "port": "8000",
+                            "path": ["api", "room-reservations"]
+                        }
+                    }
+                }
+            ]
+        },
+        {
+            "name": "Material Loans",
+            "item": [
+                {
+                    "name": "Get All Loans",
+                    "request": {
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{token}}"
+                            }
+                        ],
+                        "url": {
+                            "raw": "http://localhost:8000/api/material-loans",
+                            "protocol": "http",
+                            "host": ["localhost"],
+                            "port": "8000",
+                            "path": ["api", "material-loans"]
+                        }
+                    }
+                },
+                {
+                    "name": "Create Loan",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            },
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{token}}"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"user_id\": 3,\n  \"material_id\": 1,\n  \"loan_date\": \"2026-01-23 10:00:00\",\n  \"due_date\": \"2026-01-30 10:00:00\",\n  \"observations\": \"Portátil para proyecto final\",\n  \"status\": \"prestado\"\n}"
+                        },
+                        "url": {
+                            "raw": "http://localhost:8000/api/material-loans",
+                            "protocol": "http",
+                            "host": ["localhost"],
+                            "port": "8000",
+                            "path": ["api", "material-loans"]
+                        }
+                    }
+                }
+            ]
+        }
+    ]
+}
