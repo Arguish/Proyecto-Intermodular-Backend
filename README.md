@@ -109,20 +109,20 @@ material_loans
 
 ### 🏗️ Estructura y Base de Datos
 
-- [ ] [cite_start]Configurar el proyecto inicial Laravel 11 Vanilla y entorno `.env`[cite: 85, 296].
-- [ ] [cite_start]Diseñar y ejecutar migraciones para MariaDB (`users`, `materials`, `rooms`, `loans`, `reservations`)[cite: 86, 296].
-- [ ] [cite_start]Implementar modelos Eloquent con sus respectivas relaciones (1:N, N:M)[cite: 296].
-- [ ] [cite_start]Configurar el sistema de autenticación y protección de rutas API[cite: 87].
+- [ ] Configurar el proyecto inicial Laravel 11 Vanilla y entorno `.env`.
+- [ ] Diseñar y ejecutar migraciones para MariaDB (`users`, `materials`, `rooms`, `loans`, `reservations`).
+- [ ] Implementar modelos Eloquent con sus respectivas relaciones (1:N, N:M).
+- [ ] Configurar el sistema de autenticación y protección de rutas API.
 
 ### ⚙️ Lógica de Negocio (API)
 
-- [ ] [cite_start]Crear el CRUD completo para la gestión de materiales y aulas (Backoffice)[cite: 89, 90].
-- [ ] [cite_start]Desarrollar el servicio web para el listado de recursos y su estado de disponibilidad[cite: 91, 188].
-- [ ] [cite_start]Programar la lógica de validación de fechas para evitar solapamientos en reservas[cite: 99, 100].
-- [ ] [cite_start]Implementar el sistema de gestión de excepciones para controlar errores de reserva (basado en lógica Python)[cite: 105, 298].
-- [ ] [cite_start]Crear endpoint de "Alertas" que identifique registros con estado 'atrasado'[cite: 190].
+- [ ] Crear el CRUD completo para la gestión de materiales y aulas (Backoffice).
+- [ ] Desarrollar el servicio web para el listado de recursos y su estado de disponibilidad.
+- [ ] Programar la lógica de validación de fechas para evitar solapamientos en reservas.
+- [ ] Implementar el sistema de gestión de excepciones para controlar errores de reserva (basado en lógica Python).105, 298].
+- [ ] Crear endpoint de "Alertas" que identifique registros con estado 'atrasado'.
 
 ### 🔐 Seguridad y Roles
 
-- [ ] [cite_start]Implementar middleware para diferenciar accesos entre Admin y Profesorado[cite: 88, 102].
-- [ ] [cite_start]Asegurar que el registro de usuarios capture los datos básicos y departamento[cite: 186].
+- [ ] Implementar middleware para diferenciar accesos entre Admin y Profesorado.
+- [ ] Asegurar que el registro de usuarios capture los datos básicos y departamento.
