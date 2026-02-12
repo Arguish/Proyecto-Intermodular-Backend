@@ -11,7 +11,8 @@ class StoreReservationRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        // Cualquier usuario autenticado puede crear reservas
+        return $this->user() != null;
     }
 
     /**
@@ -22,7 +23,24 @@ class StoreReservationRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'user_id' => ['required', 'exists:users,id'],
+            'room_id' => ['nullable', 'exists:rooms,id'],
+            'material_ids' => ['nullable', 'array'],
+            'material_ids.*' => ['exists:materials,id'],
+            'fecha_inicio' => ['required', 'date', 'date_format:Y-m-d H:i:s'],
+            'fecha_fin' => ['required', 'date', 'after:fecha_inicio', 'date_format:Y-m-d H:i:s'],
+            'observaciones' => ['nullable', 'string'],
+            'es_invitado' => ['boolean'],
         ];
+    }
+
+    public function withValidator($validator)
+    {
+        $validator->after(function ($validator) {
+            $data = $this->all();
+            if (empty($data['room_id']) && (empty($data['material_ids']) || count($data['material_ids']) === 0)) {
+                $validator->errors()->add('room_id', 'Debe especificar al menos un aula o un material.');
+            }
+        });
     }
 }
