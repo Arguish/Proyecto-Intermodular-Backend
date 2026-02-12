@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->string('password');
             $table->string('department')->nullable();
-            $table->string('role')->default('profesor'); // admin | profesor
+            $table->enum('role', ['admin', 'profesor'])->default('profesor');
             $table->timestamps();
         });
 
