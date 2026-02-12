@@ -10,17 +10,32 @@ class Room extends Model
     use HasFactory;
 
     protected $fillable = [
-        'name',
-        'description',
+        'nombre',
+        'codigo',
+        'tipo',
+        'capacidad',
+        'ubicacion',
+        'disponible',
+        'equipamiento',
+    ];
+
+    /**
+     * Casts de atributos
+     */
+    protected $casts = [
+        'disponible' => 'boolean',
+        'equipamiento' => 'array',
     ];
 
     /* =========================
      | RELACIONES
      |========================= */
 
-    // Un aula puede tener muchas reservas
+    /**
+     * Un aula puede tener muchas reservas
+     */
     public function reservations()
     {
-        return $this->hasMany(RoomReservation::class);
+        return $this->hasMany(Reservation::class);
     }
 }
