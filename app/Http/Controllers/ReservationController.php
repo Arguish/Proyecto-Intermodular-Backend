@@ -9,6 +9,7 @@ use App\Models\Reservation;
 use App\Models\Room;
 use App\Models\Material;
 use App\Http\Resources\ReservationResource;
+use App\Http\Resources\ReservationDetailResource;
 
 class ReservationController extends Controller
 {
@@ -17,8 +18,8 @@ class ReservationController extends Controller
      */
     public function index()
     {
-        $reservations = \App\Models\Reservation::all();
-        return \App\Http\Resources\ReservationResource::collection($reservations);
+        $reservations = \App\Models\Reservation::with(['user', 'room', 'materials'])->get();
+        return \App\Http\Resources\ReservationDetailResource::collection($reservations);
     }
 
     /**
@@ -99,13 +100,13 @@ class ReservationController extends Controller
      */
     public function show($id)
     {
-        $reservation = \App\Models\Reservation::find($id);
+        $reservation = \App\Models\Reservation::with(['user', 'room', 'materials'])->find($id);
         if (!$reservation) {
             return response()->json([
                 'message' => 'Reserva no encontrada'
             ], 404);
         }
-        return new \App\Http\Resources\ReservationResource($reservation);
+        return new \App\Http\Resources\ReservationDetailResource($reservation);
     }
 
     /**
@@ -228,5 +229,34 @@ class ReservationController extends Controller
         $reservation->save();
 
         return response()->json(['message' => 'Reserva cancelada correctamente']);
+    }
+
+    /**
+     * Marcar reserva como devuelta y materiales como disponibles
+     */
+    public function devolver($id)
+    {
+        $reservation = \App\Models\Reservation::with('materials')->find($id);
+        if (!$reservation) {
+            return response()->json(['message' => 'Reserva no encontrada'], 404);
+        }
+
+        $user = request()->user();
+        // Solo admin o conserje puede marcar como devuelta
+        if (!in_array($user->role, ['admin', 'conserje'])) {
+            return response()->json(['message' => 'No autorizado'], 403);
+        }
+
+        // Cambiar estado de la reserva a completada
+        $reservation->estado = 'completada';
+        $reservation->save();
+
+        // Marcar materiales como disponibles
+        foreach ($reservation->materials as $material) {
+            $material->disponible = true;
+            $material->save();
+        }
+
+        return response()->json(['message' => 'Material devuelto correctamente']);
     }
 }

@@ -37,4 +37,24 @@ class AuthController extends Controller
             'user' => new UserResource($user)
         ]);
     }
+
+    /**
+     * Logout de usuario (invalidar token actual)
+     */
+    public function logout(Request $request)
+    {
+        $request->user()->currentAccessToken()->delete();
+        
+        return response()->json([
+            'message' => 'Sesión cerrada correctamente'
+        ]);
+    }
+
+    /**
+     * Obtener datos del usuario autenticado
+     */
+    public function user(Request $request)
+    {
+        return new UserResource($request->user());
+    }
 }

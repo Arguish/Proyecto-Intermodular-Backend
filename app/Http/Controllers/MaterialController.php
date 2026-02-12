@@ -72,4 +72,39 @@ class MaterialController extends Controller
             'message' => 'Material eliminado correctamente'
         ], 200);
     }
+
+    /**
+     * Buscar material por texto (nombre, codigo, categoria)
+     */
+    public function search(Request $request)
+    {
+        $query = $request->input('q', '');
+        
+        if (empty($query)) {
+            return \App\Http\Resources\MaterialResource::collection([]);
+        }
+        
+        $materials = \App\Models\Material::where('nombre', 'LIKE', "%{$query}%")
+            ->orWhere('codigo', 'LIKE', "%{$query}%")
+            ->orWhere('categoria', 'LIKE', "%{$query}%")
+            ->get();
+        
+        return \App\Http\Resources\MaterialResource::collection($materials);
+    }
+
+    /**
+     * Buscar material por código de barras
+     */
+    public function findByBarcode($barcode)
+    {
+        $material = \App\Models\Material::where('barcode', $barcode)->first();
+        
+        if (!$material) {
+            return response()->json([
+                'message' => 'Material no encontrado'
+            ], 404);
+        }
+        
+        return new \App\Http\Resources\MaterialResource($material);
+    }
 }
