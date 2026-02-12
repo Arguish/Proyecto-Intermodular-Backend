@@ -11,7 +11,8 @@ class StoreRoomRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        // Solo admin o conserje puede crear aulas
+        return in_array($this->user()?->role, ['admin', 'conserje']);
     }
 
     /**
@@ -22,7 +23,13 @@ class StoreRoomRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'nombre' => ['required', 'string'],
+            'tipo' => ['required', 'in:Teórica,Laboratorio,Informática,Taller,Auditorio,Estudio'],
+            'capacidad' => ['required', 'integer', 'min:1'],
+            'codigo' => ['required', 'string', 'unique:rooms,codigo'],
+            'ubicacion' => ['required', 'string'],
+            'disponible' => ['boolean'],
+            'equipamiento' => ['nullable', 'array'],
         ];
     }
 }

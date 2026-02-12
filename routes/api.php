@@ -31,6 +31,12 @@ Route::middleware(['auth:sanctum', 'role:admin'])->group(function () {
     Route::post('/material', [\App\Http\Controllers\MaterialController::class, 'store'])->middleware('role:admin,conserje');
     Route::put('/material/{id}', [\App\Http\Controllers\MaterialController::class, 'update'])->middleware('role:admin,conserje');
     Route::delete('/material/{id}', [\App\Http\Controllers\MaterialController::class, 'destroy'])->middleware('role:admin,conserje');
+    // Rutas de aulas
+    Route::get('/aulas', [\App\Http\Controllers\RoomController::class, 'index']);
+    Route::get('/aulas/{id}', [\App\Http\Controllers\RoomController::class, 'show']);
+    Route::post('/aulas', [\App\Http\Controllers\RoomController::class, 'store'])->middleware('role:admin,conserje');
+    Route::put('/aulas/{id}', [\App\Http\Controllers\RoomController::class, 'update'])->middleware('role:admin,conserje');
+    Route::delete('/aulas/{id}', [\App\Http\Controllers\RoomController::class, 'destroy'])->middleware('role:admin,conserje');
     // Ejemplo de ruta protegida
     Route::get('/user', function (Request $request) {
         return $request->user();

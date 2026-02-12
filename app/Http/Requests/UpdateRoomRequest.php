@@ -11,7 +11,8 @@ class UpdateRoomRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        // Solo admin o conserje puede actualizar aulas
+        return in_array($this->user()?->role, ['admin', 'conserje']);
     }
 
     /**
@@ -22,7 +23,13 @@ class UpdateRoomRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'nombre' => ['sometimes', 'string'],
+            'tipo' => ['sometimes', 'in:Teórica,Laboratorio,Informática,Taller,Auditorio,Estudio'],
+            'capacidad' => ['sometimes', 'integer', 'min:1'],
+            'codigo' => ['sometimes', 'string', 'unique:rooms,codigo,' . $this->route('id')],
+            'ubicacion' => ['sometimes', 'string'],
+            'disponible' => ['sometimes', 'boolean'],
+            'equipamiento' => ['sometimes', 'array'],
         ];
     }
 }
