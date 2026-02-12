@@ -13,10 +13,12 @@ return new class extends Migration
     {
         Schema::create('materials', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('barcode')->unique();
-            $table->string('status')->default('disponible'); 
-            // disponible | averiado | prestado
+            $table->string('nombre');
+            $table->string('codigo')->unique();
+            $table->string('barcode')->nullable()->unique();
+            $table->string('categoria');
+            $table->string('estado');
+            $table->boolean('disponible')->default(true);
             $table->timestamps();
         });
     }
