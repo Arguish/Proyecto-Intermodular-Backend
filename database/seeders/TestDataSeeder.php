@@ -13,9 +13,7 @@ class TestDataSeeder extends Seeder
     public function run(): void
     {
         // Crear usuarios de prueba (estudiantes y profesores)
-        \App\Models\User::factory(10)->create([
-            'role' => 'student', // O alternar entre student y teacher
-        ]);
+        \App\Models\User::factory(10)->create();
 
         // Crear materiales de prueba
         \App\Models\Material::factory(20)->create();

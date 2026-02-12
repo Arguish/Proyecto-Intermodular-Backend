@@ -22,11 +22,11 @@ class ReservationFactory extends Factory
         return [
             'user_id' => $this->faker->numberBetween(1, 10), // Assuming users 1-10 exist
             'room_id' => $this->faker->numberBetween(1, 5), // Assuming rooms 1-5 exist
-            'start_date' => $startDate,
-            'end_date' => $endDate,
-            'status' => $this->faker->randomElement(['pending', 'approved', 'rejected', 'cancelled']),
-            'purpose' => $this->faker->sentence(),
-            'notes' => $this->faker->optional()->paragraph(),
+            'fecha_inicio' => $startDate,
+            'fecha_fin' => $endDate,
+            'estado' => $this->faker->randomElement(['activa', 'cancelada', 'completada']),
+            'observaciones' => $this->faker->optional()->paragraph(),
+            'es_invitado' => $this->faker->boolean(10), // 10% chance of being guest
         ];
     }
 }

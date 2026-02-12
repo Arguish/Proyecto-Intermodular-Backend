@@ -17,13 +17,13 @@ class RoomFactory extends Factory
     public function definition(): array
     {
         return [
-            'name' => $this->faker->words(2, true),
-            'description' => $this->faker->sentence(),
-            'capacity' => $this->faker->numberBetween(5, 50),
-            'location' => $this->faker->word(),
-            'amenities' => $this->faker->randomElements(['Projector', 'Whiteboard', 'WiFi', 'Air Conditioning', 'Sound System', 'Computers'], $this->faker->numberBetween(1, 4)),
-            'is_active' => $this->faker->boolean(95), // 95% chance of being active
-            'image_url' => $this->faker->optional()->imageUrl(640, 480, 'business'),
+            'nombre' => $this->faker->words(2, true),
+            'codigo' => $this->faker->unique()->word(),
+            'tipo' => $this->faker->word(),
+            'capacidad' => $this->faker->numberBetween(5, 50),
+            'ubicacion' => $this->faker->word(),
+            'disponible' => $this->faker->boolean(95),
+            'equipamiento' => $this->faker->randomElements(['Projector', 'Whiteboard', 'WiFi', 'Air Conditioning', 'Sound System', 'Computers'], $this->faker->numberBetween(1, 4)),
         ];
     }
 }
