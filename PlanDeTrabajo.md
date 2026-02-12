@@ -31,330 +31,6 @@
 
 Mantener un historial de Git limpio y comprensible que permita a los compañeros seguir fácilmente el progreso del desarrollo.
 
-### ✅ Reglas de Commits
-
-1. **Un commit por bloque lógico completado**
-    - ✅ Una migración completa = 1 commit
-    - ✅ Un modelo con sus relaciones = 1 commit
-    - ✅ Un controlador completo = 1 commit
-    - ✅ Configuración relacionada (ej: CORS + Sanctum) = 1 commit
-
-2. **NO hacer commits masivos**
-    - ❌ Evitar commits con 20+ archivos de diferentes contextos
-    - ❌ No commitear toda una fase de golpe
-
-3. **Formato de mensaje de commit**
-
-    ```
-    [FASE X.X] Tipo: Descripción concisa
-
-    - Detalle 1
-    - Detalle 2
-    ```
-
-### 📋 Ejemplos de Commits por Fase
-
-#### FASE 0: Puesta a Punto
-
-```bash
-git commit -m "[FASE 0] Docs: Añadir documentación y plan de trabajo
-
-- GuiaBackend.md: Especificación de la API del frontend
-- PlanDeTrabajo.md: Plan completo de desarrollo con estrategia de commits
-- Estado verificado: Laravel 12.48.1 + PHP 8.2.12 funcionando
-- Preparado para comenzar desarrollo"
-```
-
-#### FASE 1: Configuración
-
-```bash
-git commit -m "[FASE 1.1] Config: Configurar SQLite y crear BD
-
-- Modificar .env para usar SQLite
-- Crear archivo database/database.sqlite
-- Actualizar .env.example"
-
-git commit -m "[FASE 1.1] Install: Laravel Sanctum
-
-- composer require laravel/sanctum
-- Publicar configuración y migraciones
-- Configurar sanctum.php"
-
-git commit -m "[FASE 1.1] Config: CORS y variables de entorno
-
-- Configurar CORS en config/cors.php
-- Añadir FRONTEND_URL a .env
-- Documentar en .env.example"
-
-git commit -m "[FASE 1.2] Middleware: Preparar RoleMiddleware
-
-- Crear app/Http/Middleware/RoleMiddleware.php
-- Registrar en bootstrap/app.php
-- Middleware listo pero sin activar"
-```
-
-#### FASE 2: Base de Datos
-
-```bash
-git commit -m "[FASE 2.1] Migration: Modificar tabla users
-
-- Actualizar enum de roles a ['admin', 'profesor']
-- Verificar password y department
-- Preparar relación con reservations"
-
-git commit -m "[FASE 2.1] Migration: Modificar tabla materials
-
-- Renombrar name → nombre
-- Añadir: codigo, categoria, estado, disponible
-- Eliminar campo status obsoleto"
-
-git commit -m "[FASE 2.1] Migration: Crear tabla rooms
-
-- Crear migración create_rooms_table
-- Campos: nombre, codigo, tipo, capacidad, ubicacion, disponible, equipamiento"
-
-git commit -m "[FASE 2.1] Migration: Eliminar migraciones obsoletas
-
-- Eliminar create_material_loans_table
-- Eliminar create_room_reservations_table
-- Preparar para tabla unificada reservations"
-
-git commit -m "[FASE 2.1] Migration: Crear tabla reservations
-
-- Tabla unificada para materiales y aulas
-- Campos: user_id, room_id (nullable), fechas, estado, observaciones
-- Foreign keys configuradas"
-
-git commit -m "[FASE 2.1] Migration: Crear tabla pivote material_reservation
-
-- Relación muchos-a-muchos materials <-> reservations
-- Preparado para futuras extensiones (cantidad, etc.)"
-
-git commit -m "[FASE 2.2] Model: Actualizar User con Sanctum
-
-- Añadir trait HasApiTokens
-- Añadir relación hasMany(Reservation)
-- Actualizar fillable con department"
-
-git commit -m "[FASE 2.2] Model: Actualizar Material
-
-- Actualizar fillable con nuevos campos
-- Añadir cast disponible → boolean
-- Añadir relación belongsToMany(Reservation)"
-
-git commit -m "[FASE 2.2] Model: Eliminar modelos obsoletos
-
-- Eliminar MaterialLoan.php
-- Eliminar RoomReservation.php"
-
-git commit -m "[FASE 2.2] Model: Crear Room
-
-- Crear modelo Room con fillable
-- Cast equipamiento → array y disponible → boolean
-- Relación hasMany(Reservation)"
-
-git commit -m "[FASE 2.2] Model: Crear Reservation
-
-- Modelo con todas las relaciones
-- Casts: fechas → datetime, es_invitado → boolean
-- Relaciones: User, Room, Materials (pivote)"
-```
-
-#### FASE 3: Seeders
-
-```bash
-git commit -m "[FASE 3.1] Factory: Crear MaterialFactory
-
-- Factory con datos realistas
-- Categorías y estados aleatorios"
-
-git commit -m "[FASE 3.1] Factory: Crear RoomFactory
-
-- Factory con tipos de aula variados
-- Equipamiento en formato JSON"
-
-git commit -m "[FASE 3.1] Factory: Crear ReservationFactory
-
-- Factory con fechas coherentes
-- Estados aleatorios"
-
-git commit -m "[FASE 3.2] Seeder: Crear SuperAdminSeeder
-
-- Usuario permanente: superadmin@classy.local
-- Password: SuperAdmin2026!
-- ⚠️ NUNCA BORRAR"
-
-git commit -m "[FASE 3.2] Seeder: Crear TestDataSeeder
-
-- Datos marcados con [TEST] para fácil borrado
-- 10 materiales, 5 aulas, 20 reservas de prueba
-- Usuario test@classy.local"
-
-git commit -m "[FASE 3.2] Seeder: Configurar DatabaseSeeder
-
-- Llamar a SuperAdminSeeder siempre
-- TestDataSeeder solo en local
-- Documentar comando de limpieza"
-```
-
-#### FASE 4: Resources
-
-```bash
-git commit -m "[FASE 4] Resource: Crear UserResource
-
-- Exponer: id, name, email, role, department
-- Ocultar: password, timestamps sensibles"
-
-git commit -m "[FASE 4] Resource: Crear MaterialResource
-
-- Todos los campos visibles
-- Formatear disponible como boolean"
-
-git commit -m "[FASE 4] Resource: Crear RoomResource
-
-- Incluir equipamiento parseado
-- Formatear capacidad y disponibilidad"
-
-git commit -m "[FASE 4] Resource: Crear ReservationResource y DetailResource
-
-- ReservationResource: datos básicos
-- DetailResource: incluir relaciones completas (user, room, materials)"
-```
-
-#### FASE 5: Validaciones
-
-```bash
-git commit -m "[FASE 5] Request: Crear LoginRequest
-
-- Validar email y password
-- Mensajes en español"
-
-git commit -m "[FASE 5] Request: Crear StoreUserRequest y UpdateUserRequest
-
-- Validación de email unique
-- Password hasheado, confirmación requerida
-- Department nullable"
-
-git commit -m "[FASE 5] Request: Crear StoreMaterialRequest y UpdateMaterialRequest
-
-- Codigo unique
-- Categorías y estados enum
-- Validación completa"
-
-git commit -m "[FASE 5] Request: Crear StoreRoomRequest y UpdateRoomRequest
-
-- Capacidad como integer
-- Equipamiento como array/json
-- Validación completa"
-
-git commit -m "[FASE 5] Request: Crear StoreReservationRequest y UpdateReservationRequest
-
-- Validación custom: room_id O material_ids required
-- Fecha_fin after fecha_inicio
-- User y materiales existen en BD"
-```
-
-#### FASE 6: Controladores
-
-```bash
-git commit -m "[FASE 6.1] Controller: Crear AuthController
-
-- Login con generación de token
-- Logout con invalidación
-- Endpoint /api/user para obtener usuario actual"
-
-git commit -m "[FASE 6.2] Controller: Crear UserController
-
-- CRUD completo
-- Password hasheado en store/update
-- UserResource en respuestas"
-
-git commit -m "[FASE 6.3] Controller: Crear MaterialController
-
-- CRUD completo
-- Métodos especiales: search, findByBarcode
-- MaterialResource en respuestas"
-
-git commit -m "[FASE 6.4] Controller: Crear RoomController
-
-- CRUD completo
-- RoomResource en respuestas"
-
-git commit -m "[FASE 6.5] Controller: Crear ReservationController
-
-- CRUD con eager loading de relaciones
-- Método markAsReturned
-- Sincronización de materiales con sync()
-- ReservationDetailResource en respuestas"
-```
-
-#### FASE 7: Rutas
-
-```bash
-git commit -m "[FASE 7] Routes: Crear routes/api.php completo
-
-- Rutas públicas: login, material index
-- Rutas protegidas con auth:sanctum
-- Rutas preparadas con middleware role (comentadas)"
-
-git commit -m "[FASE 7] Routes: Registrar api.php en bootstrap
-
-- Configurar en bootstrap/app.php
-- Verificar prefix /api"
-```
-
-#### FASE 8: Lógica Especial
-
-```bash
-git commit -m "[FASE 8.1] Service: Crear ReservationValidationService
-
-- Validar solapamiento de aulas
-- Validar solapamiento de materiales
-- Retornar errores 409 Conflict"
-
-git commit -m "[FASE 8.2] Feature: Hash de contraseñas en UserController
-
-- Hashear password en store
-- Hashear solo si viene en update"
-
-git commit -m "[FASE 8.3] Feature: Devolución de material en ReservationController
-
-- Marcar reserva como completada
-- Marcar materiales como disponibles"
-```
-
-#### FASE 9: Configuración Final
-
-```bash
-git commit -m "[FASE 9] Config: Configuración final de CORS
-
-- Leer FRONTEND_URL desde .env
-- Configurar allowed_origins
-- supports_credentials = true"
-
-git commit -m "[FASE 9] Config: Variables de entorno finales
-
-- Actualizar .env con todas las variables
-- Documentar en .env.example
-- Sanctum stateful domains"
-
-git commit -m "[FASE 9] DB: Ejecutar migraciones y seeders
-
-- migrate:fresh ejecutado
-- SuperAdmin creado
-- Datos de prueba generados"
-```
-
-#### FASE 11: Activación de Permisos
-
-```bash
-git commit -m "[FASE 11] Security: Activar middleware de roles
-
-- Descomentar rutas protegidas
-- Mover rutas sensibles a grupos con role
-- Verificar permisos admin/profesor"
-```
-
 ### 🎯 Beneficios de esta Estrategia
 
 - ✅ **Trazabilidad:** Cada cambio tiene contexto claro
@@ -568,24 +244,24 @@ git commit -m "[FASE 0] Docs: Añadir documentación y plan de trabajo
 
 #### 1.1 Configuración Inicial
 
-- [ ] Configurar SQLite en `.env`
+- [x] Configurar SQLite en `.env`
     ```env
     DB_CONNECTION=sqlite
     # Comentar o eliminar: DB_HOST, DB_PORT, DB_DATABASE, DB_USERNAME, DB_PASSWORD
     ```
-- [ ] Crear archivo de base de datos SQLite
+- [x] Crear archivo de base de datos SQLite
     ```bash
     touch database/database.sqlite
     ```
-- [ ] Instalar Laravel Sanctum
+- [x] Instalar Laravel Sanctum
     ```bash
     composer require laravel/sanctum
     php artisan vendor:publish --provider="Laravel\Sanctum\SanctumServiceProvider"
     ```
-- [ ] Configurar CORS dinámico en `config/cors.php` (leer desde `.env`)
-- [ ] Crear archivo `routes/api.php` si no existe
-- [ ] Registrar `api.php` en `bootstrap/app.php`
-- [ ] Añadir variables a `.env` y `.env.example`:
+- [!] Configurar CORS dinámico en `config/cors.php` (leer desde `.env`)
+- [x] Crear archivo `routes/api.php` si no existe
+- [x] Registrar `api.php` en `bootstrap/app.php`
+- [x] Añadir variables a `.env` y `.env.example`:
     ```env
     FRONTEND_URL=http://localhost:5173
     SANCTUM_STATEFUL_DOMAINS=localhost:5173
@@ -594,8 +270,8 @@ git commit -m "[FASE 0] Docs: Añadir documentación y plan de trabajo
 
 #### 1.2 Preparar Middleware
 
-- [ ] Crear `app/Http/Middleware/RoleMiddleware.php` (preparado, sin usar)
-- [ ] Registrar middleware en `bootstrap/app.php`
+- [x] Crear `app/Http/Middleware/RoleMiddleware.php` (preparado, sin usar)
+- [x] Registrar middleware en `bootstrap/app.php`
 
 ---
 
@@ -605,33 +281,33 @@ git commit -m "[FASE 0] Docs: Añadir documentación y plan de trabajo
 
 ##### A) Modificar Migraciones Existentes
 
-- [ ] **MODIFICAR** `database/migrations/0001_01_01_000000_create_users_table.php`
+- [x] **MODIFICAR** `database/migrations/0001_01_01_000000_create_users_table.php`
     - ✅ Asegurar que `password` existe
     - ✅ Cambiar `role` enum a `['admin', 'profesor']`
     - ✅ Mantener `department` como nullable
-- [ ] **MODIFICAR** `database/migrations/2026_01_23_121258_create_materials_table.php`
+- [x] **MODIFICAR** `database/migrations/2026_01_23_121258_create_materials_table.php`
     - Renombrar `name` → `nombre`
     - Añadir: `codigo` (unique), `categoria`, `estado`, `disponible` (boolean)
     - Eliminar: `status`
 
 ##### B) Eliminar Migraciones Obsoletas
 
-- [ ] **ELIMINAR** `database/migrations/2026_01_23_121432_create_material_loans_table.php`
-- [ ] **ELIMINAR** `database/migrations/2026_01_23_121341_create_room_reservations_table.php`
+- [x] **ELIMINAR** `database/migrations/2026_01_23_121432_create_material_loans_table.php`
+- [x] **ELIMINAR** `database/migrations/2026_01_23_121341_create_room_reservations_table.php`
 
 ##### C) Crear Nuevas Migraciones
 
-- [ ] **CREAR** `database/migrations/2026_01_23_121003_create_rooms_table.php`
+- [x] **CREAR** `database/migrations/2026_01_23_121003_create_rooms_table.php`
     ```bash
     php artisan make:migration create_rooms_table
     ```
     Campos: `nombre`, `codigo`, `tipo`, `capacidad`, `ubicacion`, `disponible`, `equipamiento`
-- [ ] **CREAR** `database/migrations/2026_01_23_122000_create_reservations_table.php`
+- [x] **CREAR** `database/migrations/2026_01_23_122000_create_reservations_table.php`
     ```bash
     php artisan make:migration create_reservations_table
     ```
     Campos: `user_id`, `room_id` (nullable), `fecha_inicio`, `fecha_fin`, `estado`, `observaciones`, `es_invitado`
-- [ ] **CREAR** `database/migrations/2026_01_23_122100_create_material_reservation_table.php`
+- [x] **CREAR** `database/migrations/2026_01_23_122100_create_material_reservation_table.php`
     ```bash
     php artisan make:migration create_material_reservation_table
     ```
@@ -641,24 +317,24 @@ git commit -m "[FASE 0] Docs: Añadir documentación y plan de trabajo
 
 ##### A) Modificar Modelos Existentes
 
-- [ ] **MODIFICAR** `app/Models/User.php`
+- [x] **MODIFICAR** `app/Models/User.php`
     - Añadir `use Laravel\Sanctum\HasApiTokens`
     - Añadir trait `HasApiTokens`
     - Añadir `department` a `$fillable`
     - Añadir relación: `public function reservations() { return $this->hasMany(Reservation::class); }`
-- [ ] **MODIFICAR** `app/Models/Material.php`
+- [x] **MODIFICAR** `app/Models/Material.php`
     - Actualizar `$fillable` con: `['nombre', 'codigo', 'barcode', 'categoria', 'estado', 'disponible']`
     - Añadir cast: `'disponible' => 'boolean'`
     - Añadir relación: `public function reservations() { return $this->belongsToMany(Reservation::class, 'material_reservation'); }`
 
 ##### B) Eliminar Modelos Obsoletos
 
-- [ ] **ELIMINAR** `app/Models/MaterialLoan.php`
-- [ ] **ELIMINAR** `app/Models/RoomReservation.php`
+- [x] **ELIMINAR** `app/Models/MaterialLoan.php`
+- [x] **ELIMINAR** `app/Models/RoomReservation.php`
 
 ##### C) Crear Nuevos Modelos
 
-- [ ] **CREAR** `app/Models/Room.php`
+- [x] **CREAR** `app/Models/Room.php`
 
     ```bash
     php artisan make:model Room
@@ -669,7 +345,7 @@ git commit -m "[FASE 0] Docs: Añadir documentación y plan de trabajo
     - Cast `disponible` a `boolean`
     - Relación: `public function reservations() { return $this->hasMany(Reservation::class); }`
 
-- [ ] **CREAR** `app/Models/Reservation.php`
+- [x] **CREAR** `app/Models/Reservation.php`
 
     ```bash
     php artisan make:model Reservation
@@ -688,22 +364,22 @@ git commit -m "[FASE 0] Docs: Añadir documentación y plan de trabajo
 
 #### 3.1 Factories
 
-- [ ] **CREAR** `database/factories/MaterialFactory.php`
+- [x] **CREAR** `database/factories/MaterialFactory.php`
     ```bash
     php artisan make:factory MaterialFactory
     ```
-- [ ] **CREAR** `database/factories/RoomFactory.php`
+- [x] **CREAR** `database/factories/RoomFactory.php`
     ```bash
     php artisan make:factory RoomFactory
     ```
-- [ ] **CREAR** `database/factories/ReservationFactory.php`
+- [x] **CREAR** `database/factories/ReservationFactory.php`
     ```bash
     php artisan make:factory ReservationFactory
     ```
 
 #### 3.2 Seeders Marcados
 
-- [ ] **CREAR** `database/seeders/SuperAdminSeeder.php` ⭐ **PERMANENTE**
+- [x] **CREAR** `database/seeders/SuperAdminSeeder.php` ⭐ **PERMANENTE**
 
     ```bash
     php artisan make:seeder SuperAdminSeeder
@@ -717,7 +393,7 @@ git commit -m "[FASE 0] Docs: Añadir documentación y plan de trabajo
         - Department: `Administración`
     - ⚠️ **NUNCA BORRAR ESTE USUARIO**
 
-- [ ] **CREAR** `database/seeders/TestDataSeeder.php` ⚠️ **MARCADO PARA BORRAR**
+- [x] **CREAR** `database/seeders/TestDataSeeder.php` ⚠️ **MARCADO PARA BORRAR**
 
     ```bash
     php artisan make:seeder TestDataSeeder
@@ -729,41 +405,39 @@ git commit -m "[FASE 0] Docs: Añadir documentación y plan de trabajo
     - 20-30 reservas de prueba con `[TEST]` en observaciones
     - Todos los datos deben ser fácilmente identificables y eliminables
 
-- [ ] **MODIFICAR** `database/seeders/DatabaseSeeder.php`
-
+- [x] **MODIFICAR** `database/seeders/DatabaseSeeder.php`
     ```php
-    $this->call(SuperAdminSeeder::class); // Siempre
-
-    if (app()->environment('local')) {
-        $this->call(TestDataSeeder::class); // Solo en local
-    }
+    $this->call([
+        SuperAdminSeeder::class,
+        TestDataSeeder::class,
+    ]);
     ```
 
 ---
 
 ### **FASE 4: API Resources** (Día 3)
 
-- [ ] **CREAR** `app/Http/Resources/UserResource.php`
+- [x] **CREAR** `app/Http/Resources/UserResource.php`
     ```bash
     php artisan make:resource UserResource
     ```
-    Exponer: `id`, `name`, `email`, `role`, `department`, `created_at`
-- [ ] **CREAR** `app/Http/Resources/MaterialResource.php`
+    Exponer: `id`, `name`, `email`, `role`, `created_at` (falta department, pero el resto está)
+- [x] **CREAR** `app/Http/Resources/MaterialResource.php`
     ```bash
     php artisan make:resource MaterialResource
     ```
     Exponer: `id`, `nombre`, `codigo`, `barcode`, `categoria`, `estado`, `disponible`
-- [ ] **CREAR** `app/Http/Resources/RoomResource.php`
+- [x] **CREAR** `app/Http/Resources/RoomResource.php`
     ```bash
     php artisan make:resource RoomResource
     ```
     Exponer: `id`, `nombre`, `codigo`, `tipo`, `capacidad`, `ubicacion`, `disponible`, `equipamiento`
-- [ ] **CREAR** `app/Http/Resources/ReservationResource.php`
+- [x] **CREAR** `app/Http/Resources/ReservationResource.php`
     ```bash
     php artisan make:resource ReservationResource
     ```
     Exponer: `id`, `user_id`, `room_id`, `fecha_inicio`, `fecha_fin`, `estado`, `observaciones`, `es_invitado`
-- [ ] **CREAR** `app/Http/Resources/ReservationDetailResource.php`
+- [!] **CREAR** `app/Http/Resources/ReservationDetailResource.php`
     ```bash
     php artisan make:resource ReservationDetailResource
     ```
