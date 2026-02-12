@@ -11,7 +11,8 @@ class StoreMaterialRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        // Solo admin o conserje puede crear material
+        return in_array($this->user()?->role, ['admin', 'conserje']);
     }
 
     /**
@@ -22,7 +23,12 @@ class StoreMaterialRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'nombre' => ['required', 'string'],
+            'codigo' => ['required', 'string', 'unique:materials,codigo'],
+            'barcode' => ['nullable', 'string'],
+            'categoria' => ['required', 'in:Informática,Audiovisual,Mobiliario,Deportivo,Laboratorio,Otros'],
+            'estado' => ['required', 'in:Excelente,Bueno,Regular,Malo'],
+            'disponible' => ['boolean'],
         ];
     }
 }

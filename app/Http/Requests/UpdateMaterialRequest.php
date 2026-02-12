@@ -11,7 +11,8 @@ class UpdateMaterialRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        // Solo admin o conserje puede actualizar material
+        return in_array($this->user()?->role, ['admin', 'conserje']);
     }
 
     /**
@@ -22,7 +23,12 @@ class UpdateMaterialRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'nombre' => ['sometimes', 'string'],
+            'codigo' => ['sometimes', 'string', 'unique:materials,codigo,' . $this->route('id')],
+            'barcode' => ['sometimes', 'string'],
+            'categoria' => ['sometimes', 'in:Informática,Audiovisual,Mobiliario,Deportivo,Laboratorio,Otros'],
+            'estado' => ['sometimes', 'in:Excelente,Bueno,Regular,Malo'],
+            'disponible' => ['sometimes', 'boolean'],
         ];
     }
 }
