@@ -11,7 +11,8 @@ class UpdateUserRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        // Solo admin puede actualizar usuarios
+        return $this->user()?->role === 'admin';
     }
 
     /**
@@ -22,7 +23,10 @@ class UpdateUserRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'name' => ['sometimes', 'string', 'min:3'],
+            'email' => ['sometimes', 'email', 'unique:users,email,' . $this->route('user')],
+            'password' => ['sometimes', 'string', 'min:6'],
+            'role' => ['sometimes', 'in:admin,profesor,alumno'],
         ];
     }
 }

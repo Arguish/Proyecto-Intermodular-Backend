@@ -14,10 +14,16 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-// Rutas públicas (se implementarán en FASE 7)
+// Rutas públicas
+Route::post('/login', [\App\Http\Controllers\AuthController::class, 'login']);
 
-// Rutas protegidas con Sanctum (se implementarán en FASE 7)
-Route::middleware('auth:sanctum')->group(function () {
+// Rutas protegidas con Sanctum
+Route::middleware(['auth:sanctum', 'role:admin'])->group(function () {
+    Route::get('/users', [\App\Http\Controllers\UserController::class, 'index']);
+    Route::get('/users/{id}', [\App\Http\Controllers\UserController::class, 'show']);
+    Route::post('/users', [\App\Http\Controllers\UserController::class, 'store']);
+    Route::put('/users/{id}', [\App\Http\Controllers\UserController::class, 'update']);
+    Route::delete('/users/{id}', [\App\Http\Controllers\UserController::class, 'destroy']);
     // Ejemplo de ruta protegida
     Route::get('/user', function (Request $request) {
         return $request->user();

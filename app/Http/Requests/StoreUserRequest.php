@@ -11,7 +11,8 @@ class StoreUserRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        // Solo admin puede crear usuarios
+        return $this->user()?->role === 'admin';
     }
 
     /**
@@ -22,7 +23,10 @@ class StoreUserRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'name' => ['required', 'string', 'min:3'],
+            'email' => ['required', 'email', 'unique:users,email'],
+            'password' => ['required', 'string', 'min:6'],
+            'role' => ['required', 'in:admin,profesor,alumno'],
         ];
     }
 }
