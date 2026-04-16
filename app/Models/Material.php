@@ -10,18 +10,30 @@ class Material extends Model
     use HasFactory;
 
     protected $fillable = [
-        'name',
+        'nombre',
+        'codigo',
         'barcode',
-        'status',
+        'categoria',
+        'estado',
+        'disponible',
+    ];
+
+    /**
+     * Casts de atributos
+     */
+    protected $casts = [
+        'disponible' => 'boolean',
     ];
 
     /* =========================
      | RELACIONES
      |========================= */
 
-    // Un material puede tener muchos préstamos
-    public function loans()
+    /**
+     * Un material puede estar en muchas reservas (muchos-a-muchos)
+     */
+    public function reservations()
     {
-        return $this->hasMany(MaterialLoan::class);
+        return $this->belongsToMany(Reservation::class, 'material_reservation');
     }
 }
