@@ -1,0 +1,60 @@
+services:
+  - type: web
+    name: proyecto-intermodular-backend
+    runtime: docker
+    dockerfilePath: ./Dockerfile
+    healthCheckPath: /up
+    envVars:
+      - key: APP_ENV
+        value: production
+      - key: APP_DEBUG
+        value: "false"
+      - key: APP_URL
+        sync: false
+      - key: APP_KEY
+        sync: false
+      - key: LOG_CHANNEL
+        value: stderr
+      - key: LOG_LEVEL
+        value: info
+      - key: DB_CONNECTION
+        value: pgsql
+      - key: DB_HOST
+        fromDatabase:
+          name: proyecto-intermodular-db
+          property: host
+      - key: DB_PORT
+        fromDatabase:
+          name: proyecto-intermodular-db
+          property: port
+      - key: DB_DATABASE
+        fromDatabase:
+          name: proyecto-intermodular-db
+          property: database
+      - key: DB_USERNAME
+        fromDatabase:
+          name: proyecto-intermodular-db
+          property: user
+      - key: DB_PASSWORD
+        fromDatabase:
+          name: proyecto-intermodular-db
+          property: password
+      - key: DB_SSLMODE
+        value: require
+      - key: CACHE_STORE
+        value: database
+      - key: QUEUE_CONNECTION
+        value: database
+      - key: SESSION_DRIVER
+        value: database
+      - key: SESSION_SECURE_COOKIE
+        value: "true"
+      - key: FRONTEND_URL
+        sync: false
+      - key: SANCTUM_STATEFUL_DOMAINS
+        sync: false
+
+databases:
+  - name: proyecto-intermodular-db
+    databaseName: proyecto_intermodular
+    user: proyecto_intermodular

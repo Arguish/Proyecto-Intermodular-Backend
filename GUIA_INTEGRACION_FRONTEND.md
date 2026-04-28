@@ -5,6 +5,8 @@
 > **Estado:** ✅ Producción Ready  
 > **Compatibilidad:** 98% con especificación original
 
+> **Producción en Render:** cuando despliegues este backend, sustituye la base URL por `https://tu-servicio.onrender.com/api`.
+
 ---
 
 ## 📋 Tabla de Contenidos
@@ -26,6 +28,11 @@
 ```javascript
 // Configurar en tu .env o config del frontend
 const API_BASE_URL = "http://127.0.0.1:8000/api";
+```
+
+```javascript
+// Produccion en Render
+const API_BASE_URL = "https://tu-servicio.onrender.com/api";
 ```
 
 ### 2. Cliente HTTP (Axios ejemplo)
@@ -52,6 +59,14 @@ apiClient.interceptors.request.use((config) => {
 
 export default apiClient;
 ```
+
+### 3. Nota para Render y Sanctum
+
+Este backend autentica con Bearer token de Sanctum, no con cookies de sesion SPA. Eso significa que para el frontend en Render solo necesitas:
+
+- Apuntar `API_BASE_URL` al dominio final del backend.
+- Enviar `Authorization: Bearer <token>` en cada request protegida.
+- Mantener `SANCTUM_STATEFUL_DOMAINS` solo como configuracion opcional si mas adelante cambias a autenticacion basada en cookies.
 
 ---
 

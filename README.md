@@ -19,8 +19,52 @@ Este es el núcleo de la aplicación, encargado de la persistencia de datos y la
 
 ## 🛠️ Stack Tecnológico
 
-- **Framework:** Laravel 10/11 (Vanilla).
-- **Base de Datos:** MariaDB/MySQL.
+- **Framework:** Laravel 12.
+- **Base de Datos:** SQLite en local, PostgreSQL recomendado en Render.
+
+## Render y Docker
+
+La configuracion de despliegue mas simple para este proyecto es:
+
+- Un solo servicio web Docker en Render.
+- Una base de datos PostgreSQL gestionada por Render.
+- Sin Redis, sin workers y sin disco persistente.
+
+Se han añadido estos archivos para dejar el entorno preparado:
+
+- `Dockerfile`: imagen de produccion basada en `php:8.2-apache`.
+- `.dockerignore`: reduce el contexto del build.
+- `docker/apache-vhost.conf`: Apache sirviendo Laravel desde `public/`.
+- `docker/entrypoint.sh`: ajusta el puerto de Render y ejecuta migraciones.
+- `render.yaml`: blueprint de Render con el servicio web y PostgreSQL.
+
+### Despliegue en Render
+
+1. Sube este repositorio a GitHub.
+2. En Render, crea el servicio usando el archivo `render.yaml` del repositorio.
+3. Antes del primer despliegue, genera una clave de Laravel en local con este comando y guarda el valor:
+
+```bash
+php artisan key:generate --show
+```
+
+4. En Render, rellena al menos estas variables que han quedado como manuales:
+
+```text
+APP_URL=https://tu-servicio.onrender.com
+APP_KEY=base64:...
+FRONTEND_URL=https://tu-frontend.onrender.com
+SANCTUM_STATEFUL_DOMAINS=tu-frontend.onrender.com
+```
+
+5. Lanza el primer deploy. El contenedor ejecutara `php artisan migrate --force` al arrancar.
+6. Comprueba que el health check responde en `/up`.
+
+### Notas de produccion
+
+- La API usa Bearer tokens de Sanctum, asi que no depende de cookies stateful para autenticarse.
+- `DB_CONNECTION` queda fijado a `pgsql` en Render porque SQLite no es adecuado para el filesystem efimero.
+- No hace falta instalar Node dentro del contenedor porque este backend se despliega como API y la vista de bienvenida ya tiene fallback sin Vite.
 
 ## 📋 Requisitos Cubiertos
 
