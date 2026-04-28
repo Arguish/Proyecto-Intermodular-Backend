@@ -24,6 +24,7 @@ WORKDIR /var/www/html
 
 COPY --from=vendor /app/vendor ./vendor
 COPY . .
+RUN rm -f .env
 COPY docker/apache-vhost.conf /etc/apache2/sites-available/000-default.conf
 COPY docker/entrypoint.sh /usr/local/bin/render-entrypoint
 
