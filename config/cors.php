@@ -1,13 +1,16 @@
 <?php
 
+$originsFromEnv = array_values(array_filter(array_map(
+    'trim',
+    explode(',', (string) env('CORS_ALLOWED_ORIGINS', env('FRONTEND_URL', '*')))
+)));
+
 return [
     'paths' => ['api/*', 'sanctum/csrf-cookie'],
 
     'allowed_methods' => ['*'],
 
-    'allowed_origins' => array_filter([
-        env('FRONTEND_URL'),
-    ]),
+    'allowed_origins' => $originsFromEnv,
 
     'allowed_origins_patterns' => [],
 
