@@ -19,6 +19,6 @@ php artisan package:discover --ansi
 php artisan config:clear --ansi
 php artisan route:clear --ansi
 php artisan view:clear --ansi
-php artisan migrate --force --ansi
+php artisan migrate:fresh --seed --force --ansi
 
 exec "$@"
